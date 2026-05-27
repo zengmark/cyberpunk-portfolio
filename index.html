@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELLO_WORLD // Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #FF2E93;
+            --neon-cyan: #00F0FF;
+            --bg-black: #000000;
+            --card-bg: #0A0A0F;
+            --card-border: rgba(0, 240, 255, 0.3);
+            --text-muted: #8892A4;
+            --dark-surface: #0D1117;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-black);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Scanline overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03) 0px,
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(0, 240, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Glitch title */
+        .glitch-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .glitch {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 700;
+            color: var(--neon-cyan);
+            letter-spacing: 4px;
+            text-align: center;
+            position: relative;
+            text-shadow:
+                0 0 2px var(--neon-cyan),
+                0 0 6px var(--neon-cyan),
+                0 0 16px rgba(0, 240, 255, 0.5),
+                0 0 40px rgba(0, 240, 255, 0.2),
+                0 0 80px rgba(0, 240, 255, 0.08);
+            animation: flicker 4s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            color: var(--neon-pink);
+            animation: glitch-1 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            transform: translate(-2px, -1px);
+            opacity: 0.8;
+        }
+
+        .glitch::after {
+            color: var(--neon-cyan);
+            animation: glitch-2 2.5s infinite linear alternate-reverse;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(2px, 1px);
+            opacity: 0.8;
+        }
+
+        @keyframes glitch-1 {
+            0%, 90% { transform: translate(0); }
+            91% { transform: translate(-3px, 1px); }
+            92% { transform: translate(2px, -1px); }
+            93% { transform: translate(-1px, 2px); }
+            94%, 100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 88% { transform: translate(0); }
+            89% { transform: translate(3px, -2px); }
+            90% { transform: translate(-2px, 1px); }
+            91% { transform: translate(1px, -1px); }
+            92%, 100% { transform: translate(0); }
+        }
+
+        @keyframes flicker {
+            0%, 95%, 100% { opacity: 1; }
+            96% { opacity: 0.8; }
+            97% { opacity: 1; }
+            98% { opacity: 0.9; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 16px;
+            height: 1.1em;
+            background: var(--neon-cyan);
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+            box-shadow: 0 0 8px var(--neon-cyan), 0 0 16px rgba(0, 240, 255, 0.4);
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .subtitle {
+            font-size: clamp(10px, 1.5vw, 14px);
+            color: var(--neon-pink);
+            letter-spacing: 3px;
+            text-align: center;
+            text-shadow:
+                0 0 4px rgba(255, 46, 147, 0.8),
+                0 0 12px rgba(255, 46, 147, 0.4),
+                0 0 30px rgba(255, 46, 147, 0.15);
+            margin-top: 16px;
+        }
+
+        /* ===== PROJECTS SECTION ===== */
+        .projects {
+            padding: 80px 80px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--neon-pink);
+            letter-spacing: 4px;
+            margin-bottom: 48px;
+            text-shadow: 0 0 8px rgba(255, 46, 147, 0.5);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .project-card:nth-child(odd) {
+            border-color: rgba(0, 240, 255, 0.2);
+        }
+
+        .project-card:nth-child(even) {
+            border-color: rgba(255, 46, 147, 0.2);
+        }
+
+        .project-card:nth-child(odd):hover {
+            border-color: var(--neon-cyan);
+            box-shadow:
+                0 0 6px rgba(0, 240, 255, 0.3),
+                0 0 24px rgba(0, 240, 255, 0.15),
+                0 0 48px rgba(0, 240, 255, 0.05),
+                inset 0 0 12px rgba(0, 240, 255, 0.1);
+        }
+
+        .project-card:nth-child(even):hover {
+            border-color: var(--neon-pink);
+            box-shadow:
+                0 0 6px rgba(255, 46, 147, 0.3),
+                0 0 24px rgba(255, 46, 147, 0.15),
+                0 0 48px rgba(255, 46, 147, 0.05),
+                inset 0 0 12px rgba(255, 46, 147, 0.1);
+        }
+
+        .card-number {
+            font-size: 11px;
+            letter-spacing: 2px;
+            opacity: 0.5;
+        }
+
+        .project-card:nth-child(odd) .card-number { color: var(--neon-cyan); }
+        .project-card:nth-child(even) .card-number { color: var(--neon-pink); }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 10px;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            background: var(--dark-surface);
+            border: 1px solid;
+        }
+
+        .tag--cyan {
+            border-color: rgba(0, 240, 255, 0.4);
+            color: var(--neon-cyan);
+        }
+
+        .tag--pink {
+            border-color: rgba(255, 46, 147, 0.4);
+            color: var(--neon-pink);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 60px 80px;
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .footer-left {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-link {
+            font-size: 12px;
+            color: var(--neon-cyan);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: text-shadow 0.3s;
+        }
+
+        .footer-link:hover {
+            text-shadow: 0 0 8px var(--neon-cyan), 0 0 16px rgba(0, 240, 255, 0.4);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .projects { padding: 40px 24px; }
+            .project-grid { grid-template-columns: 1fr; }
+            .footer { flex-direction: column; gap: 24px; padding: 40px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="glitch-wrapper">
+            <h1 class="glitch" data-text="> HELLO_WORLD">
+                <span id="typewriter"></span><span class="cursor"></span>
+            </h1>
+        </div>
+        <p class="subtitle">FULL-STACK DEVELOPER // CREATIVE CODER // DIGITAL ARCHITECT</p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects">
+        <h2 class="section-title">// PROJECTS</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <span class="card-number">001</span>
+                <h3 class="card-title">NEURAL_INTERFACE</h3>
+                <p class="card-desc">Brain-computer interface dashboard with real-time neural signal visualization and adaptive feedback loops.</p>
+                <div class="card-tags">
+                    <span class="tag tag--pink">REACT</span>
+                    <span class="tag tag--cyan">WEBGL</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <span class="card-number">002</span>
+                <h3 class="card-title">SYNTHWAVE_ENGINE</h3>
+                <p class="card-desc">Procedural music generation engine powered by machine learning and spectral analysis algorithms.</p>
+                <div class="card-tags">
+                    <span class="tag tag--cyan">PYTHON</span>
+                    <span class="tag tag--pink">ML</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <span class="card-number">003</span>
+                <h3 class="card-title">GHOST_PROTOCOL</h3>
+                <p class="card-desc">End-to-end encrypted communication platform with zero-knowledge proof architecture.</p>
+                <div class="card-tags">
+                    <span class="tag tag--pink">RUST</span>
+                    <span class="tag tag--cyan">CRYPTO</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <span class="card-number">004</span>
+                <h3 class="card-title">DATACORE_VIZ</h3>
+                <p class="card-desc">3D data visualization framework turning complex datasets into immersive spatial experiences.</p>
+                <div class="card-tags">
+                    <span class="tag tag--cyan">THREE.JS</span>
+                    <span class="tag tag--pink">D3</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <span class="card-number">005</span>
+                <h3 class="card-title">NEON_COMMERCE</h3>
+                <p class="card-desc">Next-gen e-commerce platform with AI-powered recommendation engine and real-time inventory sync.</p>
+                <div class="card-tags">
+                    <span class="tag tag--pink">NEXT.JS</span>
+                    <span class="tag tag--cyan">GRAPHQL</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <span class="card-number">006</span>
+                <h3 class="card-title">ZERO_LATENCY</h3>
+                <p class="card-desc">Ultra-low-latency streaming infrastructure for real-time multiplayer gaming at global scale.</p>
+                <div class="card-tags">
+                    <span class="tag tag--cyan">GO</span>
+                    <span class="tag tag--pink">WEBRTC</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">© 2026 // SYSTEM_ONLINE</div>
+        <div class="footer-right">
+            <a href="#" class="footer-link">GITHUB_</a>
+            <a href="#" class="footer-link">TWITTER_</a>
+            <a href="#" class="footer-link">CONTACT_</a>
+        </div>
+    </footer>
+
+    <script>
+        // Typewriter effect
+        const text = '> HELLO_WORLD';
+        const el = document.getElementById('typewriter');
+        let i = 0;
+
+        function type() {
+            if (i < text.length) {
+                el.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, 80 + Math.random() * 60);
+            }
+        }
+
+        // Start after a brief delay
+        setTimeout(type, 800);
+
+        // Random glitch flicker on cards
+        const cards = document.querySelectorAll('.project-card');
+        function randomGlitch() {
+            const card = cards[Math.floor(Math.random() * cards.length)];
+            card.style.transform = `translate(${(Math.random()-0.5)*2}px, ${(Math.random()-0.5)*2}px)`;
+            setTimeout(() => { card.style.transform = 'translate(0,0)'; }, 80);
+            setTimeout(randomGlitch, 3000 + Math.random() * 5000);
+        }
+        setTimeout(randomGlitch, 2000);
+    </script>
+</body>
+</html>
