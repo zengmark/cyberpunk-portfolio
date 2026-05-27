@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HELLO_WORLD // Portfolio</title>
+    <title>墨韵 // 作品集</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,23 +15,26 @@
         }
 
         :root {
-            --neon-pink: #FF2E93;
-            --neon-cyan: #00F0FF;
-            --bg-black: #FFFFFF;
-            --card-bg: #0A0A0F;
-            --card-border: rgba(0, 240, 255, 0.3);
-            --text-muted: #8892A4;
-            --dark-surface: #0D1117;
+            --ink-black: #1a1a1a;
+            --vermilion: #C41E1E;
+            --gold: #B8860B;
+            --rice-paper: #F5F0E8;
+            --light-paper: #FAF7F2;
+            --card-bg: #FFFDF9;
+            --text-primary: #2D2D2D;
+            --text-secondary: #6B6B6B;
+            --border-light: rgba(180, 160, 130, 0.3);
+            --shadow-warm: rgba(150, 120, 80, 0.08);
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--bg-black);
-            color: #fff;
+            font-family: 'Noto Serif SC', serif;
+            background: var(--rice-paper);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
 
-        /* Scanline overlay */
+        /* 宣纸纹理 */
         body::before {
             content: '';
             position: fixed;
@@ -39,19 +42,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.03) 0px,
-                rgba(0, 0, 0, 0.03) 1px,
-                transparent 1px,
-                transparent 3px
-            );
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(200, 180, 150, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(180, 160, 120, 0.03) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(160, 140, 100, 0.03) 0%, transparent 60%);
             pointer-events: none;
-            z-index: 9999;
-            opacity: 0.4;
+            z-index: 0;
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== 首屏 ===== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -60,208 +59,181 @@
             justify-content: center;
             padding: 80px 40px;
             position: relative;
+            z-index: 1;
         }
 
+        /* 水墨晕染背景 */
         .hero::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(ellipse, rgba(0, 240, 255, 0.03) 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse, rgba(196, 30, 30, 0.04) 0%, rgba(184, 134, 11, 0.02) 40%, transparent 70%);
             pointer-events: none;
+            border-radius: 50%;
+            filter: blur(40px);
         }
 
-        /* Glitch title */
-        .glitch-wrapper {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .glitch {
-            font-size: clamp(36px, 8vw, 72px);
-            font-weight: 700;
-            color: var(--neon-cyan);
-            letter-spacing: 4px;
+        .hero-title {
+            font-size: clamp(48px, 10vw, 96px);
+            font-weight: 900;
+            color: var(--ink-black);
             text-align: center;
             position: relative;
-            text-shadow:
-                0 0 2px var(--neon-cyan),
-                0 0 6px var(--neon-cyan),
-                0 0 16px rgba(0, 240, 255, 0.5),
-                0 0 40px rgba(0, 240, 255, 0.2),
-                0 0 80px rgba(0, 240, 255, 0.08);
-            animation: flicker 4s infinite;
+            margin-bottom: 16px;
+            letter-spacing: 12px;
         }
 
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch::before {
-            color: var(--neon-pink);
-            animation: glitch-1 3s infinite linear alternate-reverse;
-            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-            transform: translate(-2px, -1px);
-            opacity: 0.8;
-        }
-
-        .glitch::after {
-            color: var(--neon-cyan);
-            animation: glitch-2 2.5s infinite linear alternate-reverse;
-            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-            transform: translate(2px, 1px);
-            opacity: 0.8;
-        }
-
-        @keyframes glitch-1 {
-            0%, 90% { transform: translate(0); }
-            91% { transform: translate(-3px, 1px); }
-            92% { transform: translate(2px, -1px); }
-            93% { transform: translate(-1px, 2px); }
-            94%, 100% { transform: translate(0); }
-        }
-
-        @keyframes glitch-2 {
-            0%, 88% { transform: translate(0); }
-            89% { transform: translate(3px, -2px); }
-            90% { transform: translate(-2px, 1px); }
-            91% { transform: translate(1px, -1px); }
-            92%, 100% { transform: translate(0); }
-        }
-
-        @keyframes flicker {
-            0%, 95%, 100% { opacity: 1; }
-            96% { opacity: 0.8; }
-            97% { opacity: 1; }
-            98% { opacity: 0.9; }
-        }
-
-        .cursor {
+        /* 印章效果 */
+        .seal {
             display: inline-block;
-            width: 16px;
-            height: 1.1em;
-            background: var(--neon-cyan);
-            margin-left: 4px;
-            animation: blink 1s step-end infinite;
-            box-shadow: 0 0 8px var(--neon-cyan), 0 0 16px rgba(0, 240, 255, 0.4);
-            vertical-align: text-bottom;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .subtitle {
-            font-size: clamp(10px, 1.5vw, 14px);
-            color: var(--neon-pink);
-            letter-spacing: 3px;
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--vermilion);
+            border-radius: 4px;
+            color: var(--vermilion);
+            font-size: 18px;
+            line-height: 54px;
             text-align: center;
-            text-shadow:
-                0 0 4px rgba(255, 46, 147, 0.8),
-                0 0 12px rgba(255, 46, 147, 0.4),
-                0 0 30px rgba(255, 46, 147, 0.15);
-            margin-top: 16px;
+            font-weight: 700;
+            margin-left: 16px;
+            vertical-align: middle;
+            transform: rotate(-5deg);
+            position: relative;
         }
 
-        /* ===== PROJECTS SECTION ===== */
+        .seal::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border: 1px solid rgba(196, 30, 30, 0.3);
+            border-radius: 6px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(14px, 2vw, 18px);
+            color: var(--text-secondary);
+            letter-spacing: 6px;
+            text-align: center;
+            margin-top: 24px;
+            font-weight: 300;
+        }
+
+        .divider {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 32px auto;
+        }
+
+        .hero-poem {
+            font-size: 16px;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+            letter-spacing: 2px;
+            line-height: 2;
+        }
+
+        /* ===== 作品区域 ===== */
         .projects {
             padding: 80px 80px;
-            max-width: 1440px;
+            max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 60px;
         }
 
         .section-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--neon-pink);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--ink-black);
             letter-spacing: 4px;
-            margin-bottom: 48px;
-            text-shadow: 0 0 8px rgba(255, 46, 147, 0.5);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-light), transparent);
+        }
+
+        .section-accent {
+            font-size: 14px;
+            color: var(--vermilion);
+            font-weight: 500;
         }
 
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
         }
 
         .project-card {
             background: var(--card-bg);
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            padding: 24px;
+            border: 1px solid var(--border-light);
+            padding: 32px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
-            overflow: hidden;
+            border-radius: 4px;
         }
 
         .project-card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            border: 1px solid transparent;
-            transition: all 0.3s ease;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--vermilion), var(--gold));
+            transition: height 0.4s ease;
+            border-radius: 2px;
         }
 
-        .project-card:nth-child(odd) {
-            border-color: rgba(0, 240, 255, 0.2);
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 8px 32px var(--shadow-warm),
+                0 2px 8px rgba(150, 120, 80, 0.05);
+            border-color: rgba(184, 134, 11, 0.4);
         }
 
-        .project-card:nth-child(even) {
-            border-color: rgba(255, 46, 147, 0.2);
-        }
-
-        .project-card:nth-child(odd):hover {
-            border-color: var(--neon-cyan);
-            box-shadow:
-                0 0 6px rgba(0, 240, 255, 0.3),
-                0 0 24px rgba(0, 240, 255, 0.15),
-                0 0 48px rgba(0, 240, 255, 0.05),
-                inset 0 0 12px rgba(0, 240, 255, 0.1);
-        }
-
-        .project-card:nth-child(even):hover {
-            border-color: var(--neon-pink);
-            box-shadow:
-                0 0 6px rgba(255, 46, 147, 0.3),
-                0 0 24px rgba(255, 46, 147, 0.15),
-                0 0 48px rgba(255, 46, 147, 0.05),
-                inset 0 0 12px rgba(255, 46, 147, 0.1);
+        .project-card:hover::before {
+            height: 100%;
         }
 
         .card-number {
-            font-size: 11px;
+            font-size: 12px;
             letter-spacing: 2px;
-            opacity: 0.5;
+            color: var(--gold);
+            opacity: 0.7;
+            font-family: 'Noto Serif SC', serif;
         }
 
-        .project-card:nth-child(odd) .card-number { color: var(--neon-cyan); }
-        .project-card:nth-child(even) .card-number { color: var(--neon-pink); }
-
         .card-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: #fff;
+            color: var(--ink-black);
+            letter-spacing: 2px;
         }
 
         .card-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
             flex-grow: 1;
         }
 
@@ -269,40 +241,45 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-top: 8px;
         }
 
         .tag {
-            font-size: 10px;
+            font-size: 11px;
             letter-spacing: 1px;
-            padding: 4px 8px;
-            background: var(--dark-surface);
+            padding: 4px 12px;
+            border-radius: 2px;
             border: 1px solid;
         }
 
-        .tag--cyan {
-            border-color: rgba(0, 240, 255, 0.4);
-            color: var(--neon-cyan);
+        .tag--vermilion {
+            border-color: rgba(196, 30, 30, 0.3);
+            color: var(--vermilion);
+            background: rgba(196, 30, 30, 0.04);
         }
 
-        .tag--pink {
-            border-color: rgba(255, 46, 147, 0.4);
-            color: var(--neon-pink);
+        .tag--gold {
+            border-color: rgba(184, 134, 11, 0.3);
+            color: var(--gold);
+            background: rgba(184, 134, 11, 0.04);
         }
 
-        /* ===== FOOTER ===== */
+        /* ===== 页脚 ===== */
         .footer {
             padding: 60px 80px;
-            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            border-top: 1px solid var(--border-light);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1440px;
+            max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .footer-left {
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: var(--text-secondary);
             letter-spacing: 2px;
         }
 
@@ -312,133 +289,181 @@
         }
 
         .footer-link {
-            font-size: 12px;
-            color: var(--neon-cyan);
+            font-size: 13px;
+            color: var(--ink-black);
             text-decoration: none;
-            letter-spacing: 1px;
-            transition: text-shadow 0.3s;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--vermilion);
+            transition: width 0.3s;
         }
 
         .footer-link:hover {
-            text-shadow: 0 0 8px var(--neon-cyan), 0 0 16px rgba(0, 240, 255, 0.4);
+            color: var(--vermilion);
         }
 
-        /* ===== RESPONSIVE ===== */
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== 墨滴动画 ===== */
+        .ink-drop {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: rgba(26, 26, 26, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ink-fade 3s ease-out forwards;
+            z-index: 0;
+        }
+
+        @keyframes ink-fade {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(8); opacity: 0.3; }
+            100% { transform: scale(12); opacity: 0; }
+        }
+
+        /* ===== 响应式 ===== */
         @media (max-width: 768px) {
             .projects { padding: 40px 24px; }
             .project-grid { grid-template-columns: 1fr; }
             .footer { flex-direction: column; gap: 24px; padding: 40px 24px; }
+            .hero-title { letter-spacing: 6px; }
+            .seal { width: 48px; height: 48px; font-size: 14px; line-height: 42px; }
         }
     </style>
 </head>
 <body>
-    <!-- HERO -->
+    <!-- 首屏 -->
     <section class="hero">
-        <div class="glitch-wrapper">
-            <h1 class="glitch" data-text="> HELLO_WORLD">
-                <span id="typewriter"></span><span class="cursor"></span>
-            </h1>
-        </div>
-        <p class="subtitle">FULL-STACK DEVELOPER // CREATIVE CODER // DIGITAL ARCHITECT</p>
+        <h1 class="hero-title">
+            匠心筑码<span class="seal">印</span>
+        </h1>
+        <div class="divider"></div>
+        <p class="hero-subtitle">全栈开发 · 创意编程 · 数字造物</p>
+        <p class="hero-poem">路漫漫其修远兮，吾将上下而求索</p>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- 作品 -->
     <section class="projects">
-        <h2 class="section-title">// PROJECTS</h2>
+        <div class="section-header">
+            <h2 class="section-title">拙作</h2>
+            <div class="section-line"></div>
+            <span class="section-accent">六艺</span>
+        </div>
         <div class="project-grid">
             <div class="project-card">
-                <span class="card-number">001</span>
-                <h3 class="card-title">NEURAL_INTERFACE</h3>
-                <p class="card-desc">Brain-computer interface dashboard with real-time neural signal visualization and adaptive feedback loops.</p>
+                <span class="card-number">壹</span>
+                <h3 class="card-title">神经接口</h3>
+                <p class="card-desc">脑机接口仪表盘，实时呈现神经信号可视化与自适应反馈回路。</p>
                 <div class="card-tags">
-                    <span class="tag tag--pink">REACT</span>
-                    <span class="tag tag--cyan">WEBGL</span>
+                    <span class="tag tag--vermilion">REACT</span>
+                    <span class="tag tag--gold">WEBGL</span>
                 </div>
             </div>
             <div class="project-card">
-                <span class="card-number">002</span>
-                <h3 class="card-title">SYNTHWAVE_ENGINE</h3>
-                <p class="card-desc">Procedural music generation engine powered by machine learning and spectral analysis algorithms.</p>
+                <span class="card-number">贰</span>
+                <h3 class="card-title">合成之声</h3>
+                <p class="card-desc">基于机器学习与频谱分析的程序化音乐生成引擎。</p>
                 <div class="card-tags">
-                    <span class="tag tag--cyan">PYTHON</span>
-                    <span class="tag tag--pink">ML</span>
+                    <span class="tag tag--gold">PYTHON</span>
+                    <span class="tag tag--vermilion">ML</span>
                 </div>
             </div>
             <div class="project-card">
-                <span class="card-number">003</span>
-                <h3 class="card-title">GHOST_PROTOCOL</h3>
-                <p class="card-desc">End-to-end encrypted communication platform with zero-knowledge proof architecture.</p>
+                <span class="card-number">叁</span>
+                <h3 class="card-title">幽灵密约</h3>
+                <p class="card-desc">端到端加密通信平台，采用零知识证明架构。</p>
                 <div class="card-tags">
-                    <span class="tag tag--pink">RUST</span>
-                    <span class="tag tag--cyan">CRYPTO</span>
+                    <span class="tag tag--vermilion">RUST</span>
+                    <span class="tag tag--gold">CRYPTO</span>
                 </div>
             </div>
             <div class="project-card">
-                <span class="card-number">004</span>
-                <h3 class="card-title">DATACORE_VIZ</h3>
-                <p class="card-desc">3D data visualization framework turning complex datasets into immersive spatial experiences.</p>
+                <span class="card-number">肆</span>
+                <h3 class="card-title">数据山水</h3>
+                <p class="card-desc">三维数据可视化框架，将复杂数据集化为沉浸式空间体验。</p>
                 <div class="card-tags">
-                    <span class="tag tag--cyan">THREE.JS</span>
-                    <span class="tag tag--pink">D3</span>
+                    <span class="tag tag--gold">THREE.JS</span>
+                    <span class="tag tag--vermilion">D3</span>
                 </div>
             </div>
             <div class="project-card">
-                <span class="card-number">005</span>
-                <h3 class="card-title">NEON_COMMERCE</h3>
-                <p class="card-desc">Next-gen e-commerce platform with AI-powered recommendation engine and real-time inventory sync.</p>
+                <span class="card-number">伍</span>
+                <h3 class="card-title">云上商铺</h3>
+                <p class="card-desc">新一代电商平台，AI驱动推荐引擎与实时库存同步。</p>
                 <div class="card-tags">
-                    <span class="tag tag--pink">NEXT.JS</span>
-                    <span class="tag tag--cyan">GRAPHQL</span>
+                    <span class="tag tag--vermilion">NEXT.JS</span>
+                    <span class="tag tag--gold">GRAPHQL</span>
                 </div>
             </div>
             <div class="project-card">
-                <span class="card-number">006</span>
-                <h3 class="card-title">ZERO_LATENCY</h3>
-                <p class="card-desc">Ultra-low-latency streaming infrastructure for real-time multiplayer gaming at global scale.</p>
+                <span class="card-number">陆</span>
+                <h3 class="card-title">瞬息千里</h3>
+                <p class="card-desc">超低延迟流媒体基建，为全球级实时多人游戏而生。</p>
                 <div class="card-tags">
-                    <span class="tag tag--cyan">GO</span>
-                    <span class="tag tag--pink">WEBRTC</span>
+                    <span class="tag tag--gold">GO</span>
+                    <span class="tag tag--vermilion">WEBRTC</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- 页脚 -->
     <footer class="footer">
-        <div class="footer-left">© 2026 // SYSTEM_ONLINE</div>
+        <div class="footer-left">丙午年制 · 二〇二六</div>
         <div class="footer-right">
-            <a href="#" class="footer-link">GITHUB_</a>
-            <a href="#" class="footer-link">TWITTER_</a>
-            <a href="#" class="footer-link">CONTACT_</a>
+            <a href="https://github.com/zengmark" class="footer-link">代码阁</a>
+            <a href="#" class="footer-link">书信</a>
+            <a href="#" class="footer-link">知交</a>
         </div>
     </footer>
 
     <script>
-        // Typewriter effect
-        const text = '> HELLO_WORLD';
-        const el = document.getElementById('typewriter');
-        let i = 0;
+        // 鼠标移动时产生墨滴效果
+        let lastDrop = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastDrop < 200) return;
+            lastDrop = now;
 
-        function type() {
-            if (i < text.length) {
-                el.textContent += text.charAt(i);
-                i++;
-                setTimeout(type, 80 + Math.random() * 60);
+            if (Math.random() > 0.7) {
+                const drop = document.createElement('div');
+                drop.className = 'ink-drop';
+                drop.style.left = e.clientX + 'px';
+                drop.style.top = e.clientY + 'px';
+                document.body.appendChild(drop);
+                setTimeout(() => drop.remove(), 3000);
             }
-        }
+        });
 
-        // Start after a brief delay
-        setTimeout(type, 800);
+        // 卡片入场动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
 
-        // Random glitch flicker on cards
-        const cards = document.querySelectorAll('.project-card');
-        function randomGlitch() {
-            const card = cards[Math.floor(Math.random() * cards.length)];
-            card.style.transform = `translate(${(Math.random()-0.5)*2}px, ${(Math.random()-0.5)*2}px)`;
-            setTimeout(() => { card.style.transform = 'translate(0,0)'; }, 80);
-            setTimeout(randomGlitch, 3000 + Math.random() * 5000);
-        }
-        setTimeout(randomGlitch, 2000);
+        document.querySelectorAll('.project-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(24px)';
+            card.style.transition = `all 0.6s ease ${i * 0.1}s`;
+            observer.observe(card);
+        });
     </script>
 </body>
 </html>
